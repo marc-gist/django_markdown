@@ -17,8 +17,12 @@ def preview(request):
             from django.contrib.auth.views import redirect_to_login
             return redirect_to_login(request.get_full_path())
 
+    data = request.POST.get('data', None)
+    if not data:
+        data = request.GET.get('data', 'No content posted')
+
     return render(
         request, settings.MARKDOWN_PREVIEW_TEMPLATE, dict(
-            content=request.REQUEST.get('data', 'No content posted'),
+            content=data,
             css=settings.MARKDOWN_STYLE
         ))
